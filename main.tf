@@ -35,15 +35,10 @@ resource "digitalocean_kubernetes_cluster" "k8s" {
     size       = "s-2vcpu-2gb"
     node_count = 1
 
-    taint {
-      key    = "workloadKind"
-      value  = "database"
-      effect = "NoSchedule"
-    }
   }
 }
 
-resource "local_file" "foo" {
+resource "local_file" "kube_config" {
   content  = digitalocean_kubernetes_cluster.k8s.kube_config.0.raw_config
   filename = "kube_config.yaml"
 }
